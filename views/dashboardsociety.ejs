@@ -1,0 +1,100 @@
+<%- include('./partials/header') %>
+<div class="dashboard div" id="ash">
+	<!-- Container Start -->
+	<div class="container">
+		<!-- Row Start -->
+		<div class="row">
+			<div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
+				<div class="sidebar">
+					<!-- society Widget -->
+					<div class="widget society-dashboard-profile">
+						<!-- society Image -->
+						<div class="profile-thumb">
+							<% if(society.photo != undefined){ %> 
+								<% var imageUrl =society.photo %>
+								<% imageUrl = imageUrl.slice(7,imageUrl.length) %>
+								<% }else{ %>
+								<% var imageUrl = "https://image.flaticon.com/icons/svg/21/21104.svg" %>	
+							<% } %>
+							<img src="./<%=imageUrl%>" style="width : 60%;height : 60%;margin-left : 20%" alt="no iag" class="rounded-circle">
+						</div>
+						<h5 class="text-center"><%= society.username %></h5>
+						<p>Joined <%= society.joinedOn.toString().slice(0,16) %></p>
+					</div>
+					<!-- Dashboard Links -->
+					<div class="widget society-dashboard-menu">
+						<ul>
+								<li class="active" ><a href=""><i class="fa fa-user"></i> My Events</a></li>
+
+								<li><a href="/eventsPostedBy-<%=society.id%>" target="_blank"><i class="fa fa-file-archive-o"></i> Events Posted <span style="font-size: 1em"> <%= society.numberOfHecks %> </span></a></li>
+								
+						</ul>
+					</div>
+				</div>
+			</div>
+				<div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
+					<!-- Recently Favorited -->
+				<% if(society.userType == 'society'){ %>
+					<div class="widget dashboard-container my-adslist">
+						<h3 class="widget-header">My Events</h3>
+						<table class="table table-responsive product-dashboard-table">
+							<thead>
+								<tr>
+									<th>Poster</th>
+									<th>Product Title</th>
+									<th>Prizes</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% if(society.hecks != undefined){%> 
+									<% society.hecks.forEach(function(eachHeck){ %>
+									<% if(eachHeck != null){ %>
+										<tr>
+											<td class="product-thumb">
+												<% if(eachHeck.heckPoster != undefined){ %> 
+													<% var posterUrl = eachHeck.heckPoster %>
+													<% posterUrl = posterUrl.slice(7,posterUrl.length) %>	
+												<%}else{%> 
+													<% var posterUrl = null %>	
+												<%}%>
+												<a href="showHeck/<%=eachHeck.id%>" target="_blank"> 
+													<img width="80px" height="auto" src="./<%=posterUrl%>" alt="no poster">
+												</a>
+											</td>		
+											<td class="product-details">
+												<a href="showHeck/<%=eachHeck.id%>" target="_blank"> 
+													<h3 class="title"> Event Name : <%= eachHeck.eventName %> </h3>
+												<a>
+												<span><strong>Posted on: </strong><time> <%= eachHeck.createdOn.toString().slice(0,15) %> </time> </span>
+												<span><strong>Event on: </strong><time> <%= eachHeck.onDate.toString().slice(0,15) %> </time> </span>
+												<span class="location"><strong>Location</strong><%= eachHeck.place %></span>
+												<span><strong>Contact : </strong> <%=eachHeck.phone%> </span>
+											</td>
+											
+											<td>
+												<span> Entry Fees : <%= eachHeck.entryFees %> </span> <br>
+												<span> Prizes Worth : <%= eachHeck.entryFees %> </span>
+											</td>
+										</tr>
+									<% } %>
+									<% }) %>	
+								<% } %>
+							
+							</tbody>
+						</table>
+						
+					</div>
+					<% }%>
+				</div>
+		</div>
+		<!-- Row End -->
+	</div>
+	<!-- Container End -->
+</div>
+
+<%- include('./partials/footer.ejs') %>
+<script>
+		$(".editProfile").click(()=>{
+			$(".editProfilesForm").toggle()
+		})
+	</script>
